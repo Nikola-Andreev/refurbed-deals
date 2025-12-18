@@ -6,11 +6,12 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 
-import { useColorScheme } from '@/components/useColorScheme';
+import { AppThemeProvider } from '@/src/context/AppThemeProvider';
+import { useThemeMode } from '@/src/hooks/useThemeMode';
 
 export {
   // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
+  ErrorBoundary
 } from 'expo-router';
 
 export const unstable_settings = {
@@ -42,17 +43,23 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
+  return (
+    <AppThemeProvider>
+      <RootLayoutNav />
+    </AppThemeProvider>
+  );
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
+  const { mode } = useThemeMode();
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
+    <ThemeProvider value={mode === 'dark' ? DarkTheme : DefaultTheme}>
+      <Stack screenOptions={{
+        contentStyle: { backgroundColor: '#000000' },
+        headerShadowVisible: false,
+      }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
       </Stack>
     </ThemeProvider>
   );
