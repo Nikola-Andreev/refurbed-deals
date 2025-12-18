@@ -25,8 +25,18 @@ Instead of a simple `ScrollView`, I implemented a virtualized **`FlatList`** wit
 - **Icons:** Lucide-react-native / Expo Icons
 - **Tracking:** Mocked Analytics Service for tracking impressions and clicks.
 
+## 🧪 Testing
+
+The project uses **Jest** and **React Testing Library** to ensure business logic and component integrity.
+
+### Running Tests
+To execute the test suite, run:
+```bash
+npm test
+
 ## 🚀 Getting Started
 
 1. Install dependencies:
    ```bash
    npm install
+   npx expo start -c

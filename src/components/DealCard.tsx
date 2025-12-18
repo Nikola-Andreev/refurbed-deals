@@ -23,8 +23,8 @@ const DealCardComponent = ({ deal, onPress }: Props) => {
       ]}
     >
       <View>
-        <Text style={[styles.title]}>{deal.title}</Text>
-        <Text style={[styles.price]}>{deal.price} €</Text>
+        <Text style={styles.title}>{deal.title}</Text>
+        <Text style={styles.price}>{deal.price} €</Text>
         <Text style={styles.meta}>{deal.discountPercentage}% off</Text>
         <Text style={styles.meta}>Refurbed score: {deal.refurbedScore}</Text>
       </View>
