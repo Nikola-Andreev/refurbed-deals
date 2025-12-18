@@ -22,7 +22,7 @@ const DealCardComponent = ({ deal, onPress }: Props) => {
         isDark ? styles.containerDark : styles.containerLight
       ]}
     >
-      <View>
+      <View style={styles.wrapper}>
         <Text style={styles.title}>{deal.title}</Text>
         <Text style={styles.price}>{deal.price} €</Text>
         <Text style={styles.meta}>{deal.discountPercentage}% off</Text>
@@ -36,20 +36,25 @@ export const DealCard = memo(DealCardComponent);
 
 const styles = StyleSheet.create({
   container: {
-    padding: 12,
-    borderRadius: 8,
+    borderRadius: 2,
     marginBottom: 8,
     shadowColor: '#000',
     shadowOpacity: 0.05,
     shadowRadius: 4,
+    borderWidth: 1,
     shadowOffset: { width: 0, height: 2 },
     elevation: 1,
   },
   containerLight: {
     backgroundColor: '#fff',
+    borderColor: '#aaa'
   },
   containerDark: {
     backgroundColor: '#1f1f1f',
+    borderColor: '#aaa'
+  },
+  wrapper: {
+    padding: 12,
   },
   title: {
     fontWeight: '600',
