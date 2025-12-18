@@ -1,42 +1,53 @@
-# Refurbed Deals Spotlight 🚀
+Refurbed Deals App 🚀
+A high-performance mobile application built with React Native (Expo) to showcase deals with a focus on speed, scalability, and user experience.
 
-A high-performance React Native application built with **Expo Router** and **TypeScript**, showcasing a curated list of refurbished tech deals.
+🛠 How to Run the App
+Clone the repository:
 
-## 🏗 Architectural Decisions
+Bash
+git clone https://github.com/Nikola-Andreev/refurbed-deals
+cd refurbed-deals
+Install dependencies:
 
-### 1. Performance-First List Rendering
-Instead of a simple `ScrollView`, I implemented a virtualized **`FlatList`** with the following optimizations:
-- **Lazy Loading (Infinite Scroll):** Items are rendered in batches of 10 to minimize initial TTI (Time to Interactive).
-- **Memory Management:** Used `removeClippedSubviews` and optimized `windowSize` to ensure the app maintains a low memory footprint even with large datasets.
-- **Layout Stability:** Moved paddings to `contentContainerStyle` to prevent scrollbar misalignment and jitter during transitions.
+Bash
+npm install
+Start the development server:
 
-### 2. Navigation & Deep Linking
-- **File-based Routing:** Utilized Expo Router's dynamic routes (`app/deal/[id].tsx`) for a clean, scalable navigation structure.
-- **Deep Linking:** Configured the app to support `refurbed-app://deal/[id]` URIs, ensuring the app is ready for marketing campaigns and push notifications.
-- **Native Experience:** Integrated `Stack.Screen` to manage native header states and ensure smooth transitions in Dark Mode.
+Bash
+npx expo start
+Open on device: Scan the QR code with the Expo Go app (Android) or Camera app (iOS).
 
-### 3. State Management & Logic
-- **Custom Hooks:** Business logic for filtering (Refurbed Score) and sorting (Price/Score) is encapsulated in a custom `useDeals` hook, separating concerns from the UI layer.
-- **Dark Mode Optimization:** Implemented a system-wide Dark Mode strategy, fixing common issues like "white flashes" during navigation pops by styling the underlying `contentStyle` and `ThemeProvider`.
+🏗 Architectural Decisions
+1. Domain-Driven Directory Structure
 
-## 🛠 Tech Stack
-- **Framework:** Expo (React Native)
-- **Navigation:** Expo Router (Stack)
-- **Icons:** Lucide-react-native / Expo Icons
-- **Tracking:** Mocked Analytics Service for tracking impressions and clicks.
+Organized the code by features and domains (src/domain, src/services, src/components). This ensures that business logic is separated from the UI, making the codebase easier to scale and test.
 
-## 🧪 Testing
+2. Performance Optimization (The "60 FPS" Goal)
 
-The project uses **Jest** and **React Testing Library** to ensure business logic and component integrity.
+Memoization Strategy: Implemented memo with custom comparison functions for list items (DealCard) and images (DealImage) to prevent unnecessary re-renders during scrolling.
 
-### Running Tests
-To execute the test suite, run:
-```bash
-npm test
+Stable Props: Leveraged useCallback and useMemo in the parent screens to ensure that functions and objects passed to child components remain stable across renders.
 
-## 🚀 Getting Started
+FlatList Optimization: Used getItemLayout for predictable scroll offsets and removeClippedSubviews to keep memory usage low.
 
-1. Install dependencies:
-   ```bash
-   npm install
-   npx expo start -c
+3. Image Management
+
+Integrated expo-image for high-performance disk caching and smooth transitions. Extracted image logic into a dedicated DealImage component to centralize fallback handling and caching policies.
+
+4. Theme Management
+
+Implemented a centralized ThemeContext. To optimize performance, the theme state is consumed at the screen level and passed as a primitive prop to list items, avoiding context-heavy re-renders deep in the tree.
+
+⏳ What I’d Do Next (Given More Time)
+Unit & E2E Testing: Add Vitest for domain logic and Detox for end-to-end flow testing.
+
+State Management: Transition from local state to TanStack Query (React Query) for server-state management (caching, optimistic updates, and automatic re-fetching).
+
+Skeleton Screens: Replace the simple ActivityIndicator with sophisticated skeleton loaders for a more premium "Refurbed" feel.
+
+Accessibility (a11y): Ensure all touchables have proper accessibilityLabel and support screen readers.
+
+🚀 Safe Rollout: OTA vs. Store Releases
+For a safe rollout, I would use EAS Update (OTA) for quick bug fixes, content updates, and styling tweaks that don't involve native module changes. This allows us to bypass the 24-48 hour store review process and fix critical issues instantly for all users.
+
+For major features or native dependency changes, I would use Standard Store Releases combined with Phased Rollouts (7-day gradual release on iOS and percentage-based on Android). This, paired with Feature Flags, allows us to monitor telemetry and crash reports on a small segment of users before a 100% rollout, ensuring maximum stability.

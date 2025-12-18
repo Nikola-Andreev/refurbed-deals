@@ -6,6 +6,7 @@ export interface Deal {
   price: number;
   discountPercentage: number;
   refurbedScore: RefurbedScore;
+  imageUrl?: string;
   // Add more fields as needed, e.g. description, category, rating, etc.
 }
 

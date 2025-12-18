@@ -12,7 +12,12 @@ import { trackDealImpression, trackDealPress } from '@/src/services/analyticsSer
 import { isDealsSpotlightEnabled } from '@/src/services/featureFlagService';
 
 const PAGE_SIZE = 10;
+const ITEM_HEIGHT = 120;
 const INITIAL_SORT: SortOption = { key: 'price', direction: 'asc' };
+const VIEWABILITY_CONFIG = {
+  itemVisiblePercentThreshold: 50,
+  minimumViewTime: 500 
+};
 
 export function DealsSpotlightScreen() {
   const router = useRouter();
@@ -49,18 +54,19 @@ export function DealsSpotlightScreen() {
     }
   };
 
+  const handlePress = useCallback((item: Deal) => {
+    trackDealPress(item);
+    router.push(`/deal/${item.id}`);
+  }, [router]);
+  
   const renderItem = useCallback(({ item }: { item: Deal }) => {
-    const handlePress = () => {
-      trackDealPress(item);
-      router.push(`/deal/${item.id}`);
-    };
-    
     return (
       <DealCard
         deal={item}
-        onPress={handlePress}
+        onPress={() => handlePress(item)} 
       />
-  )}, []);
+    );
+  }, [handlePress]);
 
   /**
     * Renders a loading indicator at the bottom of the list.
@@ -82,15 +88,12 @@ export function DealsSpotlightScreen() {
   */
   const onViewableItemsChanged = useRef(({ viewableItems }: any) => {
     viewableItems.forEach(({ item, isViewable }: any) => {
-      // Check if the item is visible AND hasn't been tracked yet
-    if (isViewable && !trackedDealIds.current.has(item.id)) {
-      trackDealImpression(item);
-      
-      // Mark as tracked so we don't log it again if the user scrolls back
-      trackedDealIds.current.add(item.id);
-    }
+      if (isViewable && !trackedDealIds.current.has(item.id)) {
+        trackDealImpression(item);
+        trackedDealIds.current.add(item.id);
+      }
     });
-  }).current;
+  }).current;;
 
   /**
      * Configuration for what counts as a "visible" item
@@ -149,6 +152,11 @@ export function DealsSpotlightScreen() {
         removeClippedSubviews={true}
         maxToRenderPerBatch={10}
         windowSize={5}
+        getItemLayout={(_, index) => ({
+          length: ITEM_HEIGHT,
+          offset: ITEM_HEIGHT * index,
+          index,
+        })}
       />
     </View>
   );

@@ -1,10 +1,10 @@
 import { Deal } from '@/src/domain/Deal';
 
 const MOCK_DEALS: Deal[] = [
-  { id: '1', title: 'iPhone 13 – Like New', price: 599, discountPercentage: 30, refurbedScore: 92 },
-  { id: '2', title: 'MacBook Air M1', price: 899, discountPercentage: 25, refurbedScore: 88 },
-  { id: '3', title: 'Samsung Galaxy S21', price: 499, discountPercentage: 35, refurbedScore: 85 },
-  { id: '4', title: 'iPad Pro 11"', price: 749, discountPercentage: 20, refurbedScore: 93 },
+  { id: '1', title: 'iPhone 13 – Like New', price: 599, discountPercentage: 30, refurbedScore: 92, imageUrl: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=400&auto=format&fit=crop', },
+  { id: '2', title: 'MacBook Air M1', price: 899, discountPercentage: 25, refurbedScore: 88, imageUrl: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=400&auto=format&fit=crop'},
+  { id: '3', title: 'Samsung Galaxy S21', price: 499, discountPercentage: 35, refurbedScore: 85, imageUrl: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=400&auto=format&fit=crop'},
+  { id: '4', title: 'iPad Pro 11"', price: 749, discountPercentage: 20, refurbedScore: 93, imageUrl: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=400&auto=format&fit=crop' },
   { id: '5', title: 'Google Pixel 6', price: 429, discountPercentage: 40, refurbedScore: 78 },
   { id: '6', title: 'Apple Watch Series 7', price: 279, discountPercentage: 22, refurbedScore: 81 },
   { id: '7', title: 'Dell XPS 13', price: 999, discountPercentage: 18, refurbedScore: 74 },
